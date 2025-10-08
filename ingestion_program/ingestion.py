@@ -6,15 +6,7 @@ from pathlib import Path
 
 import numpy as np
 
-input_dir = Path('/app/input_data/')
-output_dir = Path('/app/output/')
-program_dir = Path('/app/program')
-submission_dir = Path('/app/ingested_program')
-
 EVAL_SETS = ["test", "private_test"]
-
-sys.path.append(program_dir)
-sys.path.append(submission_dir)
 
 
 def evaluate_model(model, data_dir):
@@ -32,10 +24,10 @@ def evaluate_model(model, data_dir):
     return res
 
 
-def main():
+def main(data_dir, output_dir):
     from submission import train_model
 
-    training_dir = input_dir / "train"
+    training_dir = data_dir / "train"
 
     print("Training the model")
     start = time.time()
@@ -46,7 +38,7 @@ def main():
     start = time.time()
     res = {}
     for eval_set in EVAL_SETS:
-        res[eval_set] = evaluate_model(model, input_dir / eval_set)
+        res[eval_set] = evaluate_model(model, data_dir / eval_set)
     test_time = time.time() - start
     print('-' * 10)
     duration = train_time + test_time
@@ -62,4 +54,24 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    import argparse
+    parser = argparse.ArgumentParser(
+        description='Ingestion program for codabench'
+    )
+    parser.add_argument(
+        '--data-dir', type=str, default='/app/input_data',
+        help=''
+    )
+    parser.add_argument(
+        '--output-dir', type=str, default='/app/output',
+        help=''
+    )
+    parser.add_argument(
+        '--submission-dir', type=str, default='/app/ingested_program',
+        help=''
+    )
+
+    args = parser.parse_args()
+    sys.path.append(args.submission_dir)
+
+    main(args.data_dir, args.output_dir)
