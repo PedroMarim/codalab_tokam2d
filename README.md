@@ -1,6 +1,7 @@
 # Tokam2D - Structure detection in fusion plasma simulations in codabench
 
-Context
+---
+## Context
 
 The objective of magnetic confinement fusion is to build a nuclear fusion energy reactor. To achieve this, fusion scientists confine a plasma (a gas of charged particles) using a strong magnetic field and heat it to temperatures at which nuclear fusion reactions can occur.
 
@@ -10,15 +11,14 @@ A key feature of turbulent transport is the formation of coherent, localized str
 
 The goal of this challenge is to explore how such turbulent structures can be automatically detected (and possibly tracked) in plasma simulation data.
 
-Data description
+---
+## Data description
 
 The data consist of image frames extracted from simulation movies showing the plasma density field. In these images, blobs appear as overdense, mushroom-like structures moving through the plasma toward the wall.
 
 For training, you will have access to two simulation movies:
-
-blob_i
-
-blob_dwi
+- blob_i,
+- blob_dwi.
 
 In these movies, a single blob is clearly visible and propagates through the domain, providing relatively simple examples of blob dynamics.
 
@@ -32,11 +32,13 @@ Important:
 Only blob_i, blob_dwi, and turb_i may be used for training and validation.
 Frames from turb_dwi must not be used during training. Submissions that incorporate turb_dwi data into the training loop will be penalized.
 
-Task
+---
+## Task
 
 The task is to detect blobs in each frame by predicting bounding boxes around the blob front (single class: blob_front). You may use spatial information only, temporal information, or a combination of both.
 
-Metric
+---
+## Metric
 
 Performance is evaluated using AP50 based on Intersection-over-Mean (IoMean), a metric inspired by the COCO mean Average Precision.
 
